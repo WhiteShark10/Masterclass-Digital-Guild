@@ -12,6 +12,27 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    // type de clé primaire comme chaîne de caractères
+    protected $keyType = 'string';
+
+    // Désactiver l'incrémentation automatique
+    public $incrementing = false;
+
+    // longueur maximale de l'UUID
+    protected $maxLength = 36;
+
+    // Générer automatiquement UUID
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            if (empty($model->{$model->getKeyName()})) {
+                $model->{$model->getKeyName()} = \Illuminate\Support\Str::uuid()->toString();
+            }
+        });
+    }
+
     /**
      * The attributes that are mass assignable.
      *

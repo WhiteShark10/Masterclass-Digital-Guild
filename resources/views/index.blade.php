@@ -44,31 +44,21 @@
       </div>
     </section>
 
+    {{-- Diffentes Marques --}}
     <section class="w-full py-4 overflow-hidden">
       <div class="liste_marques w-full flex justify-around items-center">
-        <div>
-          <img src="{{ asset('VANS.jpg') }}" alt="">
-        </div>
 
-        <div class="flex items-center justify-center p-4">
-          <img src="{{ asset('ADIDAS.jpg') }}" alt="">
-        </div>
+        @foreach ($brands as $brand)
+            <div>
+                <img src="{{ $brand->logo }}" alt="">
+            </div>
+        @endforeach
 
-        <div class="flex items-center justify-center p-4">
-          <img src="{{ asset('NIKE.jpg') }}" alt="">
-        </div>
-
-        <div class="flex items-center justify-center p-4">
-          <img src="{{ asset('CONVERSE.jpg') }}" alt="">
-        </div>
-
-        <div class="flex items-center justify-center p-4">
-          <img src="{{ asset('NB.jpg') }}" alt="">
-        </div>
       </div>
 
     </section>
 
+    {{-- Artcles En Vogue --}}
     <section class="flex flex-col md:flex-row  gap-8 items-center py-10 mx-auto">
 
       <div class="flex items-center bg-zinc-100 px-4 gap-x-4 py-6 rounded-xl">
@@ -127,32 +117,35 @@
       </nav>
 
       <section class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        @foreach($products as $product)
+            <div class="flex flex-col gap-y-2 my-4">
 
-        <div class="flex flex-col gap-y-2 my-4">
+            <article class="bg-zinc-100 rounded-lg flex flex-col px-4 py-2">
+                <img src="{{ asset($product->productmedia[0]->path) }}" alt="">
+            </article>
 
-          <article class="bg-zinc-100 rounded-lg flex flex-col px-4 py-2">
-            <img src="{{ asset('3.png') }}" alt="">
-          </article>
+            <article>
+                <span class="font-bold text-lg">
+                    {{ $product->name }}
+                </span>
 
-          <article>
-            <span class="font-bold text-lg">
-              Air Jordan Black and Red
-            </span>
+                <div class="flex items-center gap-x-2">
+                <article class="flex items-center gap-2">
+                    @for ($i = 1; $i <= 4; $i++)
+                        @if ( $i <= $product->stars )
+                            <img src="{{ asset('star-fill.svg') }}" alt="">
+                        @else
+                            <img src="{{ asset('star.svg') }}" alt="">
+                        @endif
+                    @endfor
+                </article>
+                <span class="text-[#666666] text-xs">({{ $product->comments }} avis)</span>
+                </div>
+            </article>
 
-            <div class="flex items-center gap-x-2">
-              <article class="flex items-center gap-2">
-                <img src="{{ asset('star-fill.svg') }}" alt="">
-                <img src="{{ asset('star-fill.svg') }}" alt="">
-                <img src="{{ asset('star-fill.svg') }}" alt="">
-                <img src="{{ asset('star-fill.svg') }}" alt="">
-                <img src="{{ asset('star.svg') }}" alt="">
-              </article>
-              <span class="text-[#666666] text-xs">(126 avis)</span>
+            <span class="text-[#010101] text-2xl font-bold">{{ $product->price }} fcfa</span>
             </div>
-          </article>
-
-          <span class="text-[#010101] text-2xl font-bold">37.000 fcfa</span>
-        </div>
+        @endforeach
       </section>
 
     </section>
