@@ -16,4 +16,4 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get("/",[traitementController::class,"index"])->name("index");
-Route::get("/commande",[traitementController::class,"ProductShow"])->name("ProductShow");
+Route::get("/commande/{product}",[traitementController::class,"ProductShow"])->name("ProductShow");

@@ -2,9 +2,85 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+        .liste_marques{
+    animation: defile 10s infinite;
+  }
+
+  @keyframes defile {
+    0%{
+      transform: translateX(100%);
+    }
+
+    100%{
+      transform: translateX(-115%);
+    }
+  }
+
+  .animate-panier{
+    animation: panier 0.7s ease-in-out;
+  }
+
+
+  @keyframes panier {
+
+    0%{
+      transform: translateX(-2px);
+    }
+    20%{
+      transform: translateX(4px);
+    }
+
+    40%{
+      transform: translateX(-2px);
+    }
+    60%{
+      transform: translateX(4px);
+    }
+
+    80%{
+      transform: translateX(-2px);
+    }
+
+  }
+
+  .taille-active{
+    background-color: #FE6759;
+    color: white;
+  }
+
+  .menu-icon {
+    transition: transform 0.3s ease;
+  }
+  .menu-icon.active .line1 {
+    transition: 0.5s;
+    transform: rotate(45deg) translate(7px, 7px);
+  }
+  .menu-icon.active .line2 {
+    opacity: 0;
+  }
+  .menu-icon.active .line3 {
+    transition: 0.5s;
+    transform: rotate(-45deg) translate(5px, -5px);
+  }
+
+
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+  }
+
+  .animate-bounce {
+    animation: bounce 0.5s ease-in-out;
+  }
+
+    </style>
     <title>@yield('title')</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <script src="{{ asset('js/panier.js') }}" defer></script>
     @vite('resources/css/app.css')
   </head>
@@ -50,8 +126,9 @@
               <img src="{{ asset('search.svg') }}" class="size-4 md:size-5" alt="">
             </button>
 
-            <button class="panier">
-              <img src="{{ asset('panier.svg') }}" class="size-4 md:size-5" alt="">
+            <button class="panier relative">
+                <img src="{{ asset('panier.svg') }}" class="size-5" alt="">
+                <span class="cart-count absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-4 h-4 flex items-center justify-center text-xs hidden">0</span>
             </button>
           </div>
 
@@ -66,7 +143,7 @@
         <nav class="menu hidden">
             <ul class="flex justify-around items-center my-auto gap-x-4 md:gap-x-4 lg:gap-x-8">
               <li class="text-[#FE6759] font-bold">
-                <a href="#">Acceuil</a>
+                <a href="{{ route('index') }}">Acceuil</a>
               </li>
               <li>
                 <a href="#">Nos produits</a>
@@ -92,7 +169,7 @@
                 <img src="{{ asset('search.svg') }}" class="size-4" alt="">
               </button>
 
-              <button class="panier">
+              <button class="panier relative">
                 <img src="{{ asset('panier.svg') }}" class="size-4" alt="">
               </button>
             </div>
@@ -105,7 +182,7 @@
       <footer class="bg-[#010101] p-5 md:p-20">
 
         <div class="flex items-center gap-2">
-          <img class="size-7 md:size-10" src="{{ ('Vector.png') }}" alt="">
+          <img class="size-7 md:size-10" src="{{ asset('Vector.png') }}" alt="">
           <h1 class="text-2xl md:text-3xl text-white font-bold">WShop</h1>
         </div>
 

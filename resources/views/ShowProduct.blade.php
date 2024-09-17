@@ -9,29 +9,19 @@
         <section class="flex items-center flex-col md:flex-row justify-center gap-6 mt-28 w-full">
 
             <!-- Articles et proposition -->
-            <section class="flex flex-col gap-3">
+            <section class="flex flex-col gap-3 sm:max-w-[400px] md:w-[70%] md:max-w-[600px]">
 
               <div class="bg-zinc-100 rounded-2xl">
-                <img src="{{ asset('2.png') }}" alt="">
+                <img class="size-full" src="{{ asset($product->productmedia[0]->path) }}" alt="">
               </div>
 
               <div class="flex gap-5 sm:grid sm:grid-cols-4 items-center overflow-auto w-full">
 
-                <article class="bg-zinc-100 rounded-lg p-4">
-                  <img class="sm:size-36 object-contain" src="{{ asset('1.png') }}" alt="">
-                </article>
-
-                <article class="bg-zinc-100 border border-[#FE6759] rounded-lg p-4">
-                  <img class="sm:size-36 object-contain" src="{{ asset('2.png') }}" alt="">
-                </article>
-
-                <article class="bg-zinc-100 rounded-lg p-4">
-                  <img class="sm:size-36 object-contain" src="{{ asset('3.png') }}" alt="">
-                </article>
-
-                <article class="bg-zinc-100 rounded-lg p-4">
-                  <img class="sm:size-36 object-contain" src="{{ asset('4.png') }}" alt="">
-                </article>
+                @foreach($product->productmedia as $img)
+                    <article class="bg-zinc-100 rounded-lg p-4">
+                        <img class="sm:size-30 object-contain" src="{{ asset($img->path) }}" alt="">
+                    </article>
+                @endforeach
 
               </div>
 
@@ -44,36 +34,32 @@
               <div class="flex flex-col gap-6">
 
                 <article class="flex flex-col gap-2">
-                  <h1 class="text-3xl text-[#010101] font-bold">Nike Air Jordan</h1>
+                  <h1 class="text-3xl text-[#010101] font-bold">{{ $product->name }}</h1>
                   <div class="flex items-center gap-x-2">
                     <article class="flex items-center gap-2">
-                      <img src="{{ asset('star-fill.svg') }}" alt="">
-                      <img src="{{ asset('star-fill.svg') }}" alt="">
-                      <img src="{{ asset('star-fill.svg') }}" alt="">
-                      <img src="{{ asset('star-fill.svg') }}" alt="">
-                      <img src="{{ asset('star.svg') }}" alt="">
+                        @for ($i = 1; $i <= 4; $i++)
+                            @if ( $i <= $product->stars )
+                                <img src="{{ asset('star-fill.svg') }}" alt="">
+                            @else
+                                <img src="{{ asset('star.svg') }}" alt="">
+                            @endif
+                        @endfor
                     </article>
-                    <span class="text-[#666666] text-xs">(126 avis)</span>
+                    <span class="text-[#666666] text-xs">({{ $product->comments }} avis)</span>
                   </div>
                 </article>
 
-                <h1 class="text-4xl mt-2 font-bold">37.000 fcfa</h1>
+                <h1 class="text-4xl mt-2 font-bold">{{ $product->price }} fcfa</h1>
 
               </div>
 
               <!-- Pointures  -->
               <div class="flex flex-col gap-2 mt-12">
                 <h1 class="text-lg font-bold">Taille</h1>
-                <article class=" grid grid-cols-5 sm:grid-cols-6 gap-2">
-                  <span class="border px-5 py-3 m-auto rounded-lg">37</span>
-                  <span class="border px-5 py-3 m-auto rounded-lg">38</span>
-                  <span class="border px-5 py-3 m-auto rounded-lg">39</span>
-                  <span class="border px-5 py-3 m-auto rounded-lg">40</span>
-                  <span class="border px-5 py-3 m-auto rounded-lg taille-active">41</span>
-                  <span class="border px-5 py-3 m-auto rounded-lg">42</span>
-                  <span class="border px-5 py-3 m-auto rounded-lg">43</span>
-                  <span class="border px-5 py-3 m-auto rounded-lg">44</span>
-                  <span class="border px-5 py-3 m-auto rounded-lg">45</span>
+                <article class="grid grid-cols-5 sm:grid-cols-6 gap-2">
+                    @foreach($product->productvariant as $variant)
+                        <button data-size="{{ $variant->size }}" class="size-button border cursor-pointer px-5 py-3 m-auto rounded-lg">{{ $variant->size }}</button>
+                    @endforeach
                 </article>
               </div>
 
@@ -81,20 +67,20 @@
               <div class="flex flex-col gap-3 mt-12 max-w-96">
                 <h1 class="font-bold">Description</h1>
                 <p>
-                  Lorem ipsum dolor, sit amet consectetur adipisicing elit. Enim magni asperiores tempora culpa quas dolorem.
+                    {{ $product->description }}
                 </p>
               </div>
 
               <div class="flex flex-col mt-12 gap-4">
 
                 <div class="flex gap-2">
-                  <a href="#" class="flex items-center justify-center gap-1 w-full
-                    bg-[#FE6759] text-white px-5 py-4 rounded-lg hover:bg-[#FE6745] active:bg-[#FE6765] transition-all">
+                  <button id="add-to-cart" data-product-id="{{ $product->id }}" href="#" class="add-to-cart flex items-center justify-center gap-1 w-full
+                    bg-zinc-100 px-5 text-white py-4 rounded-lg  transition-all">
                       Ajouter au panier
                       <i><img src="{{ asset('panierwhite.svg') }}" alt=""></i>
-                  </a>
+                  </button>
                   <button class="bg-zinc-100 py-4 px-5 rounded-lg">
-                    <img src="heart-3-line.svg" alt="">
+                    <img src="{{ asset('heart-3-line.svg') }}" alt="">
                   </button>
                 </div>
 
@@ -236,122 +222,122 @@
 
         <section class="panier_content hidden z-50 h-screen w-screen  items-center justify-center bg-zinc-300/60">
 
-        <div class="flex items-center overflow-y-auto overflow-x-hidden flex-col md:flex-row p-6 min-w-[300px] max-w-[1000px] max-h-[600px] bg-white gap-5 rounded-xl">
+            <div class="flex items-center overflow-y-auto overflow-x-hidden flex-col md:flex-row p-6 min-w-[300px] max-w-[1000px] max-h-[600px] bg-white gap-5 rounded-xl">
 
-            <section class="flex flex-col justify-center p-4 bg-zinc-100/85 w-full max-w-[480px] h-full rounded-lg">
+              <section class="flex flex-col p-4 md:overflow-auto bg-zinc-100/85 w-full max-w-[480px] rounded-lg">
 
-            <div class="flex items-center justify-between gap-x-1 px-12 my-4">
-                <button class="rounded-full bg-[#FE6759] size-4"></button>
-                <div class="bg-zinc-200 relative flex-1 h-[1px] shrink-0 ">
-                <div class="absolute bg-[#FE6759] h-full w-1/2" style="width: 100%; will-change: auto;"></div>
+                <div class="flex items-center justify-between gap-x-1 px-12 my-4">
+                  <button class="rounded-full bg-[#FE6759] size-4"></button>
+                  <div class="bg-zinc-200 relative flex-1 h-[1px] shrink-0 ">
+                    <div class="absolute bg-[#FE6759] h-full w-1/2" style="width: 100%; will-change: auto;"></div>
+                  </div>
+                  <div class="rounded-full bg-zinc-200 size-4 transition-[background-color] delay-1000"></div>
+                  <div class="bg-zinc-200 relative flex-1 h-[1px] shrink-0 ">
+                    <div class="absolute bg-[#FE6759] h-full w-1/2" style="width: 0%; will-change: auto;"></div>
+                  </div>
+                  <div class="rounded-full bg-zinc-200 size-4"></div>
                 </div>
-                <div class="rounded-full bg-zinc-200 size-4 transition-[background-color] delay-1000"></div>
-                <div class="bg-zinc-200 relative flex-1 h-[1px] shrink-0 ">
-                <div class="absolute bg-[#FE6759] h-full w-1/2" style="width: 0%; will-change: auto;"></div>
-                </div>
-                <div class="rounded-full bg-zinc-200 size-4"></div>
-            </div>
 
-            <article class="flex flex-col gap-1">
-                <h1 class="text-lg font-bold">Finalisez votre commande</h1>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex, accusamus!</p>
-            </article>
+                <article class="flex flex-col gap-1">
+                  <h1 class="text-lg font-bold">Finalisez votre commande</h1>
+                  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex, accusamus!</p>
+                </article>
 
-            <div class="flex flex-col gap-4 mt-@">
-                <h1 class="font-bold">Quantité</h1>
-                <div class="flex flex-col justify-between gap-3 p-3">
+                <div class="flex flex-col gap-4">
+                  <h1 class="font-bold">Quantité</h1>
+                  <div class="panier-items max-h-[200px] overflow-auto flex flex-col justify-between gap-3 p-3">
 
-                <article class="flex flex-col sm:flex-row justify-between items-center w-full bg-white border rounded-lg p-3 gap-2">
-                    <div class="flex items-center gap-4">
-                    <img class="size-12" src="{{ asset('2.png') }}" alt="">
-                    <h1>
-                        Air Jordan black
-                        <span>and red</span>
-                    </h1>
-                    </div>
-                    <article class="flex flex-col justify-center items-center">
+                    <article class="flex flex-col sm:flex-row justify-between items-center w-full bg-white border rounded-lg p-3 gap-2">
+                      <div class="flex items-center gap-4">
+                        <img class="size-12" src="{{ asset('2.png') }}" alt="">
+                        <h1>
+                          Air Jordan black
+                          <span>and red</span>
+                        </h1>
+                      </div>
+                      <article class="flex flex-col justify-center items-center">
 
-                    <span class="price font-bold">50.000 fcfa</span>
-                    <div class="flex gap-6">
-                        <button class="moins px-2 rounded-full text-white">
-                        <img src="{{ asset('moins.png') }}" alt="">
-                        </button>
-                        <span class="product_number">3</span>
-                        <button class="plus px-2 rounded-full text-white">
-                        <img src="{{ asset('plus.png') }}" alt="">
-                        </button>
-                    </div>
+                        <span class="price font-bold">50.000 fcfa</span>
+                        <div class="flex gap-6">
+                          <button class="moins px-2 rounded-full text-white">
+                            <img src="{{ asset('moins.png') }}" alt="">
+                          </button>
+                          <span class="product_number">3</span>
+                          <button class="plus px-2 rounded-full text-white">
+                            <img src="{{ asset('plus.png') }}" alt="">
+                          </button>
+                        </div>
 
+                      </article>
                     </article>
-                </article>
 
-                <article class="flex flex-col sm:flex-row justify-between items-center w-full bg-white border rounded-lg p-3 gap-2">
-                    <div class="flex items-center gap-4">
-                    <img class="size-12 object-contain" src="{{ asset('1.png') }}" alt="">
-                    <h1>
-                        Air Jordan black
-                        <span>and red</span>
-                    </h1>
-                    </div>
-                    <article class="flex flex-col justify-center items-center">
+                    <article class="flex flex-col sm:flex-row justify-between items-center w-full bg-white border rounded-lg p-3 gap-2">
+                      <div class="flex items-center gap-4">
+                        <img class="size-12 object-contain" src="{{ asset('1.png') }}" alt="">
+                        <h1>
+                          Air Jordan black
+                          <span>and red</span>
+                        </h1>
+                      </div>
+                      <article class="flex flex-col justify-center items-center">
 
-                    <span class="price font-bold">50.000 fcfa</span>
-                    <div class="flex gap-6">
-                        <button class="moins px-2 rounded-full text-white">
-                        <img src="{{ asset('moins.png') }}" alt="">
-                        </button>
-                        <span class="product_number">3</span>
-                        <button class="plus px-2 rounded-full text-white">
-                        <img src="{{ asset('plus.png') }}" alt="">
-                        </button>
-                    </div>
+                        <span class="price font-bold">50.000 fcfa</span>
+                        <div class="flex gap-6">
+                          <button class="moins px-2 rounded-full text-white">
+                            <img src="{{ asset('moins.png') }}" alt="">
+                          </button>
+                          <span class="product_number">3</span>
+                          <button class="plus px-2 rounded-full text-white">
+                            <img src="{{ asset('plus.png') }}" alt="">
+                          </button>
+                        </div>
 
+                      </article>
                     </article>
-                </article>
 
-                </div>
-            </div>
-
-            <div>
-
-                <h1 class="font-bold text-lg">Estimation</h1>
-                <div class="flex flex-col gap-4 mt-5">
-
-                <article class="flex flex-col gap-2">
-                    <span class="flex justify-between">
-                    <h1 class="text-[#666666]">Sous total</h1>
-                    <h1 id="sous_total" class="font-bold">100.000 fcfa</h1>
-                    </span>
-                    <span class="flex justify-between">
-                    <h1 class="text-[#666666]">Frais de livraison</h1>
-                    <h1 class="font-bold">0.00 fcfa</h1>
-                    </span>
-                </article>
-
-                <span class="flex justify-between">
-                    <h1 class="text-[#666666]">Total</h1>
-                    <h1 id="total" class="font-bold">100.000 fcfa</h1>
-                </span>
+                  </div>
                 </div>
 
-                <a href="#" class="flex items-center justify-center gap-1 w-full
-                bg-[#FE6759] text-white px-5 py-4 rounded-lg hover:bg-[#FE6745] active:bg-[#FE6765]
-                transition-all mt-8">
-                    Continuer
-                    <img src="{{ asset('Vector (1).png') }}" alt="">
-                </a>
+                <div>
+
+                  <h1 class="font-bold text-lg">Estimation</h1>
+                  <div class="flex flex-col gap-4 mt-5">
+
+                    <article class="flex flex-col gap-2">
+                      <span class="flex justify-between">
+                        <h1 class="text-[#666666]">Sous total</h1>
+                        <h1 id="sous_total" class="font-bold">100.000 fcfa</h1>
+                      </span>
+                      <span class="flex justify-between">
+                        <h1 class="text-[#666666]">Frais de livraison</h1>
+                        <h1 class="font-bold">0.00 fcfa</h1>
+                      </span>
+                    </article>
+
+                    <span class="flex justify-between">
+                      <h1 class="text-[#666666]">Total</h1>
+                      <h1 id="total" class="font-bold">100.000 fcfa</h1>
+                    </span>
+                  </div>
+
+                  <a href="#" class="flex items-center justify-center gap-1 w-full
+                    bg-[#FE6759] text-white px-5 py-4 rounded-lg hover:bg-[#FE6745] active:bg-[#FE6765]
+                    transition-all mt-8">
+                      Continuer
+                      <img src="{{ asset('Vector (1).png') }}" alt="">
+                  </a>
+
+                </div>
+
+              </section>
+
+              <article class="relative h-full order-first md:order-last">
+                <img class="size-full min-w-[250px] max-w-[700px] max-h-[550px]" src="{{ asset('finish-person.png') }}" alt="">
+              </article>
 
             </div>
 
-            </section>
-
-            <article class="relative h-full order-first md:order-last">
-            <img class="size-full min-w-[250px] max-w-[700px] max-h-[550px]" src="{{ asset('finish-person.png') }}" alt="">
-            </article>
-
-        </div>
-
-        </section>
+          </section>
 
   </main>
 

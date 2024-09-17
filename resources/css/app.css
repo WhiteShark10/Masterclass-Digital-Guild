@@ -1,3 +1,76 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+.liste_marques{
+    animation: defile 10s infinite;
+  }
+
+  @keyframes defile {
+    0%{
+      transform: translateX(100%);
+    }
+
+    100%{
+      transform: translateX(-115%);
+    }
+  }
+
+  .animate-panier{
+    animation: panier 0.7s ease-in-out;
+  }
+
+
+  @keyframes panier {
+
+    0%{
+      transform: translateX(-2px);
+    }
+    20%{
+      transform: translateX(4px);
+    }
+
+    40%{
+      transform: translateX(-2px);
+    }
+    60%{
+      transform: translateX(4px);
+    }
+
+    80%{
+      transform: translateX(-2px);
+    }
+
+  }
+
+  .taille-active{
+    background-color: #FE6759;
+    color: white;
+  }
+
+  .menu-icon {
+    transition: transform 0.3s ease;
+  }
+  .menu-icon.active .line1 {
+    transition: 0.5s;
+    transform: rotate(45deg) translate(7px, 7px);
+  }
+  .menu-icon.active .line2 {
+    opacity: 0;
+  }
+  .menu-icon.active .line3 {
+    transition: 0.5s;
+    transform: rotate(-45deg) translate(5px, -5px);
+  }
+
+
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+  }
+
+  .animate-bounce {
+    animation: bounce 0.5s ease-in-out;
+  }

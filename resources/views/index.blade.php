@@ -1,6 +1,6 @@
 @extends('layout.index')
 
-@section('Commandez en un click')
+@section('title','Commandez en un click')
 
 @section('main')
     <main class="flex items-center flex-col px-[20px] md:px-[100px]">
@@ -118,33 +118,35 @@
 
       <section class="grid grid-cols-1 md:grid-cols-4 gap-8">
         @foreach($products as $product)
-            <div class="flex flex-col gap-y-2 my-4">
+            <a href="{{ route("ProductShow",["product" => $product->id ]) }}">
+                <div class="flex flex-col gap-y-2 my-4">
 
-            <article class="bg-zinc-100 rounded-lg flex flex-col px-4 py-2">
-                <img src="{{ asset($product->productmedia[0]->path) }}" alt="">
-            </article>
+                    <article class="bg-zinc-100 rounded-lg flex flex-col px-4 py-2">
+                        <img src="{{ asset($product->productmedia[0]->path) }}" alt="">
+                    </article>
 
-            <article>
-                <span class="font-bold text-lg">
-                    {{ $product->name }}
-                </span>
+                    <article>
+                        <span class="font-bold text-lg">
+                            {{ $product->name }}
+                        </span>
 
-                <div class="flex items-center gap-x-2">
-                <article class="flex items-center gap-2">
-                    @for ($i = 1; $i <= 4; $i++)
-                        @if ( $i <= $product->stars )
-                            <img src="{{ asset('star-fill.svg') }}" alt="">
-                        @else
-                            <img src="{{ asset('star.svg') }}" alt="">
-                        @endif
-                    @endfor
-                </article>
-                <span class="text-[#666666] text-xs">({{ $product->comments }} avis)</span>
-                </div>
-            </article>
+                        <div class="flex items-center gap-x-2">
+                        <article class="flex items-center gap-2">
+                            @for ($i = 1; $i <= 4; $i++)
+                                @if ( $i <= $product->stars )
+                                    <img src="{{ asset('star-fill.svg') }}" alt="">
+                                @else
+                                    <img src="{{ asset('star.svg') }}" alt="">
+                                @endif
+                            @endfor
+                        </article>
+                        <span class="text-[#666666] text-xs">({{ $product->comments }} avis)</span>
+                        </div>
+                    </article>
 
-            <span class="text-[#010101] text-2xl font-bold">{{ $product->price }} fcfa</span>
+                <span class="text-[#010101] text-2xl font-bold">{{ $product->price }} fcfa</span>
             </div>
+            </a>
         @endforeach
       </section>
 
@@ -335,7 +337,7 @@
 
       <div class="flex items-center overflow-y-auto overflow-x-hidden flex-col md:flex-row p-6 min-w-[300px] max-w-[1000px] max-h-[600px] bg-white gap-5 rounded-xl">
 
-        <section class="flex flex-col justify-center p-4 bg-zinc-100/85 w-full max-w-[480px] h-full rounded-lg">
+        <section class="flex flex-col p-4 md:overflow-auto bg-zinc-100/85 w-full max-w-[480px] rounded-lg">
 
           <div class="flex items-center justify-between gap-x-1 px-12 my-4">
             <button class="rounded-full bg-[#FE6759] size-4"></button>
@@ -354,9 +356,9 @@
             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex, accusamus!</p>
           </article>
 
-          <div class="flex flex-col gap-4 mt-@">
+          <div class="flex flex-col gap-4">
             <h1 class="font-bold">Quantité</h1>
-            <div class="flex flex-col justify-between gap-3 p-3">
+            <div class="panier-items max-h-[200px] overflow-auto flex flex-col justify-between gap-3 p-3">
 
               <article class="flex flex-col sm:flex-row justify-between items-center w-full bg-white border rounded-lg p-3 gap-2">
                 <div class="flex items-center gap-4">
