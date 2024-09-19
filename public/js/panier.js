@@ -416,4 +416,3 @@ function removeProductFromCart(productId, size) {
     updateTotalAndSubtotal(cart); // Met à jour le total et le sous-total après suppression
 }
 
-// ... Autres fonctionnalités existantes (gestion du menu, calcul du prix, etc.) ...
