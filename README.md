@@ -7,6 +7,29 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
+## INTRODUCTION
+
+Reproduction de l'Application du live coding de 4 heures de la Digital Guild qui portais sur le terme E-commerce.
+
+## PREREQUIS
+
+  ## PHP >= 8.1
+  ## Composer
+  ## node js >= 20 (npm)
+  ## ( MySQL ou un autre SGBD pris en charge et serveur web (Apache, Nginx, etc.) ) ou Wampserver
+
+## INSTALLATION
+
+ ## Dans le terminal 
+   ## composer install (pour installer les dependances vendor)
+   ## npm install (installer les dependances node modules de tailwindcss et vitejs)
+   ## cp .env.exemple .env (Pour generer le ficher des variables d'environnement)
+   ## php artisan key:generate (Pour generer la clé de l'application)
+
+## UTILISATION
+  ## php artisan serve
+  ## npm run dev 
+
 ## About Laravel
 
 Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
